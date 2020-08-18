@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: Alkemy Challenge
+  description: Alkemy Challenge API
+  contact:
+    name: Ivan Gomez
+    url: https://github.com/if-gomez
+    email: ivangomez1902@gmail.com
+  version: 1.0.0
+
+servers:
+  - description: Localhost
+    url: https://localhost:3000/posts
+
+    
+
+paths:
+  /posts:
+    get:
+      summary: Return a list of posts
+      responses:
+        '200':
+          description: List of posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+
+    post:
+      summary: Create a new post
+      responses:
+        '201':
+          description: Post created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items: 
+              $ref: '#/components/schemas/Post'
+        description: Post created
+        required: true
+        
+  /products/{id}:
+    get:
+      summary: Get post by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Succesfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: Post not found
+
+    patch:
+      summary: Update post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number      
+      responses:
+        '200':
+          description: Post updated
+        '404':
+          description: Post not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+              $ref: '#/components/schemas/Post'
+        description: Updated post
+        required: true
+
+    delete:
+      summary: Delete a post
+      parameters:
+        - name: id
+          in: path
+          description: Post id to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Post deleted
+        '404':
+          description: Post not found
+
+    
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5f3ae46a1aeef61e1d74076e
+        title:
+          type: string
+          description: Post title
+          example: Mi titulo
+        content:
+          type: string
+          description: Post content
+          example: Este es el contenido del post
